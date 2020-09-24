@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "uni-app",
-  "usingComponents": {
-    "fx-number-box": "/components/fx-number-box/fx-number-box"
-  }
-}

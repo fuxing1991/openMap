@@ -76,7 +76,7 @@
         "usingComponents" : true
     },
     "h5" : {
-        "template" : "index.html",
+        "template" : "",
         "router" : {
             "mode" : "history",
             "base" : "/app/"

@@ -11,11 +11,8 @@
 	export default {
 		data() {
 			return {
-				img:""
+				
 			}
-		},
-		onReady() {
-			
 		},
 		methods: {
 			openMap(){
@@ -39,5 +36,4 @@
 			background-color: #fff;
 		}
 	}
-	.charts{width: 750upx; height:500upx;background-color: #FFFFFF;}
 </style>

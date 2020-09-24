@@ -1,1 +1,0 @@
-<view class="content"><view data-event-opts="{{[['tap',[['openMap',['$event']]]]]}}" class="text-area" bindtap="__e">导航</view><fx-number-box bind:change="__e" vue-id="8dd740cc-1" data-event-opts="{{[['^change',[['onchange']]]]}}" bind:__l="__l"></fx-number-box></view>
