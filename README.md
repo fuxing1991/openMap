@@ -1,21 +1,31 @@
 ### 使用说明
-本插件适合用于H5，APP,小程序开发时唤起手机安装的地图APP进行导航；因为微信公众号有自己的SDK，可自行到微信公众平台查看
+本插件适合用于H5，APP,小程序开发时唤起手机安装的地图APP进行导航(注：小程序目前只能实现原生的查看终点位置进行导航，不能实现自定义起点)；因为微信公众号有自己的SDK，可自行到微信公众平台查看
 (使用过程中遇到问题可以加我扣扣：493000217咨询)
 
 ### 使用方式
 
 ```
 import Map from '@/js_sdk/fx-openMap/openMap.js'
+//既有起点也有终点
 var options = {
 	origin:{  //导航起点坐标和名称,如果不传则起点为当前位置
 		latitude:39.92848272,
 		longitude:116.39560823,
-		name:"起点"
+		name:"起点名称"
 	},
 	destination:{  //导航终点点坐标和名称
 		latitude:39.98848272,
 		longitude:116.47560823,
-		name:"终点"
+		name:"终点名称"
+	},
+	mode:"drive"  //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
+}
+//只有有终点(起点默认为当前位置)
+var options = {
+	destination:{  //导航终点点坐标和名称
+		latitude:39.98848272,
+		longitude:116.47560823,
+		name:"终点名称"
 	},
 	mode:"drive"  //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
 }

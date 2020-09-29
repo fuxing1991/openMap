@@ -317,12 +317,36 @@ export default {
 			_destination.latitude = bd_decrypt(options.destination.latitude, options.destination.longitude).lat
 			_destination.longitude = bd_decrypt(options.destination.latitude, options.destination.longitude).lon
 		}
-		// #ifdef MP-WEIXIN
+		// #ifdef MP
+			// #ifdef MP-WEIXIN
 			wx.openLocation({
 				latitude: _destination.latitude,
 				longitude: _destination.longitude,
 				name: _destination.name
 			})
+			// #endif
+			// #ifdef MP-QQ
+			qq.openLocation({
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				name: _destination.name
+			})
+			// #endif
+			// #ifdef MP-ALIPAY
+			my.openLocation({
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				name: _destination.name
+			})
+			// #endif
+			// #ifdef MP-360 || MP-BAIDU || MP-TOUTIAO
+			uni.openLocation({
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				name: _destination.name
+			})
+			// #endif
+			
 		// #endif
 		// #ifndef MP
 			switch(uni.getSystemInfoSync().platform){
