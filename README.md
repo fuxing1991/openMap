@@ -36,17 +36,17 @@ Map.openMap(options,type)
 ### 属性说明:
 
 
-| 参数            | 类型 | 说明                    | 是否必选 |
-| --------------- | ---- | ------------------------ | ---- |
-| options        | Object  |                   | 是 |
-| ┣ origin        | Object  | 导航起点坐标和名称,如果不传则起点为当前位置                   | 否 |
-| ┣ ┣ latitude        | Float  | 纬度（默认GCJ-02坐标系）                   | 是 |
-| ┣ ┣ longitude  | Float   | 经度（默认GCJ-02坐标系）                   | 是 |
-| ┣ ┣ name      | String  | 地图标注名称                 | 否 |
-| ┣ destination        | Object  | 导航终点点坐标和名称                 | 是 |
-| ┣ ┣ latitude        | Float  | 纬度（默认GCJ-02坐标系）                   | 是 |
-| ┣ ┣ longitude  | Float   | 经度（默认GCJ-02坐标系）                   | 是 |
-| ┣ ┣ name      | String  | 地图标注名称                 | 否 |
-| ┣ mode        |  String | //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike                   | 否 |
-| type      | String  | 地图坐标系类型【“gcj02(默认)”、“wgs84”、“bd09”】              | 否 |
+| 参数				| 类型		| 说明															| 是否必选	|
+| ---------------	| ----	| ------------------------									| ----	|
+| options			| Object	|																| 是		|
+| ┣ origin			| Object	| 导航起点坐标和名称,如果不传则起点为当前位置					| 否		|
+| ┣ ┣ latitude	| Float		| 纬度（默认GCJ-02坐标系）										| 是		|
+| ┣ ┣ longitude	| Float		| 经度（默认GCJ-02坐标系）										| 是		|
+| ┣ ┣ name		| String	| 地图标注名称													| 否		|
+| ┣ destination	| Object	| 导航终点点坐标和名称											| 是		|
+| ┣ ┣ latitude	| Float		| 纬度（默认GCJ-02坐标系）										| 是		|
+| ┣ ┣ longitude	| Float		| 经度（默认GCJ-02坐标系）										| 是		|
+| ┣ ┣ name		| String	| 地图标注名称													| 否		|
+| ┣ mode			|  String	| 导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike	| 否		|
+| type				| String	| 地图坐标系类型【“gcj02(默认)”、“wgs84”、“bd09”】		| 否		|
 
