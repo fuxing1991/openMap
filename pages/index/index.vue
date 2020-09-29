@@ -16,7 +16,20 @@
 		},
 		methods: {
 			openMap(){
-				Map.openMap(39.91526781462406, 116.40393509115786, "北京天安门","bd09")
+				var options = {
+					origin:{  //导航起点坐标和名称,如果不传则起点为当前位置
+						latitude:39.92848272,
+						longitude:116.39560823,
+						name:"起点"
+					},
+					destination:{  //导航终点点坐标和名称
+						latitude:39.98848272,
+						longitude:116.47560823,
+						name:"终点"
+					},
+					mode:"drive"  //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
+				}
+				Map.openMap(options,"gcj02")
 			}
 		}
 	}

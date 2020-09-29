@@ -2,36 +2,55 @@ let itemList = ["百度地图","高德地图","腾讯地图"];
 // #ifdef APP-PLUS
 var isBaidu = plus.runtime.isApplicationExist({pname:'com.baidu.BaiduMap',action:'baidumap://'});
 var isGaode = plus.runtime.isApplicationExist({pname:'com.autonavi.minimap',action:'iosamap://'});
-let AppitemList = [{title:"默认导航"}];
+var isQQ = plus.runtime.isApplicationExist({pname:'com.tencent.map',action:'qqmap://'});
+let AppitemList = [{title:"腾讯地图"}];
 if(isBaidu && isGaode){
-	AppitemList = [{title:"百度地图"},{title:"高德地图"}];
+	AppitemList = [{title:"百度地图"},{title:"高德地图"},{title:"腾讯地图"}];
 }
 if(!isBaidu && isGaode){
-	AppitemList = [{title:"高德地图"}];
+	AppitemList = [{title:"高德地图"},{title:"腾讯地图"}];
 }
 if(isBaidu && !isGaode){
-	AppitemList = [{title:"百度地图"}];
+	AppitemList = [{title:"百度地图"},{title:"腾讯地图"}];
 }
 // #endif
-
-function openMapByDefault(latitude, longitude, name) {
-	uni.openLocation({
-		latitude: latitude,
-		longitude: longitude,
-		name: name,
-		address:"",
-		fail: (err) => {
-			console.log(err)
-		},
-	})
-}
-function openMapByAndroid(latitude, longitude, name) {
-	let url = ''; // 回调地址
-	let downloadUrl = ''; // 回调地址
-	var bdapp = "bdapp://map/direction?destination=name:"+name+"|latlng:"+latitude+","+longitude+"&coord_type=gcj02&src=hxbank";
+function openMapByAndroid(origin, destination,mode) {
+	let originName = origin&&origin.name?origin.name:"起点";
+	let destinationName = destination.name?destination.name:"终点";
+	var bdMode = "driving";
+	if(mode == "bus"){
+		bdMode = "transit";
+	}else if(mode == "walk"){
+		bdMode = "walking";
+	}else if(mode == "bike"){
+		bdMode = "riding";
+	}
+	var bdapp = "bdapp://map/direction?destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
+	if(origin){
+		bdapp = "bdapp://map/direction?origin=name:"+originName+"|latlng:"+origin.latitude+","+origin.longitude+"&destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
+	}
 	var bdappDown = "http://map.baidu.com/zt/qudao/newfengchao/1012337a/html/slide.html"
-	var amapuri = "amapuri://route/plan/?sourceApplication=hxbank&dlat="+latitude+"&dlon="+longitude+"&dname="+name+"&dev=1";
-	var amapuriDown = "http://wap.amap.com/"
+	var amapMode = 0;
+	if(mode == "bus"){
+		amapMode = 1;
+	}else if(mode == "walk"){
+		amapMode = 2;
+	}else if(mode == "bike"){
+		amapMode = 3;
+	}
+	var amapuri = "amapuri://route/plan/?sourceApplication=uniapp&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+	if(origin){
+		amapuri = "amapuri://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+	}
+	var amapuriDown = "http://wap.amap.com/";
+	var qqmap = "qqmap://map/routeplan?type="+mode+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
+	if(origin){
+		qqmap = "qqmap://map/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
+	}
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	if(origin){
+		qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	}
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
 		{
@@ -42,29 +61,44 @@ function openMapByAndroid(latitude, longitude, name) {
 		function(res){
 			if(isBaidu && isGaode){
 				if(res.index == 1){
-					url = bdapp;
-					downloadUrl = bdappDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(bdapp);
 				}else if(res.index ==2){
-					url = amapuri;
-					downloadUrl = amapuriDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(amapuri);
+				}else if(res.index == 3){
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
 				}
 			}else if(!isBaidu && isGaode){
 				if(res.index == 1){
-					url = amapuri;
-					downloadUrl = amapuriDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(amapuri);
+				}else if(res.index == 2){
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
 				}
 			}else if(isBaidu && !isGaode){
 				if(res.index == 1){
-					url = bdapp;
-					downloadUrl = bdappDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(bdapp);
+				}else if(res.index == 2){
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
 				}
 			}else{
 				if(res.index == 1){
-					openMapByDefault(latitude, longitude, name)
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
+					
 				}
 				
 			}
@@ -76,16 +110,11 @@ function openMapByAndroid(latitude, longitude, name) {
 		itemList:itemList,
 		success: (res) => {
 			if(res.tapIndex == 0){
-				url = bdapp;
-				downloadUrl = bdappDown
-				openURL(url,downloadUrl)
+				openURL(bdapp,bdappDown)
 			}else if(res.tapIndex == 1){
-				url = amapuri;
-				downloadUrl = amapuriDown
-				openURL(url,downloadUrl)
+				openURL(amapuri,amapuriDown)
 			}else{
-				url = "qqmap://map/routeplan?type=drive&to="+name+"&tocoord="+latitude+","+longitude+""
-				openURLTencent(url,latitude, longitude, name)
+				openURL(qqmap,qqmapDefault)
 			}
 			
 		}
@@ -93,13 +122,43 @@ function openMapByAndroid(latitude, longitude, name) {
 	// #endif
 	
 }
-function openMapByIos(latitude, longitude, name) {
-	let url = ''; // 回调地址
-	let downloadUrl = ''; // 回调地址
-	var bdapp = "baidumap://map/direction?destination=name:"+name+"|latlng:"+latitude+","+longitude+"&coord_type=gcj02&src=hxban";
+function openMapByIos(origin, destination,mode) {
+	let originName = origin&&origin.name?origin.name:"起点";
+	let destinationName = destination.name?destination.name:"终点";
+	var bdMode = "driving";
+	if(mode == "bus"){
+		bdMode = "transit";
+	}else if(mode == "walk"){
+		bdMode = "walking";
+	}else if(mode == "bike"){
+		bdMode = "riding";
+	}
+	var bdapp = "baidumap://map/direction?destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
+	if(origin){
+		bdapp = "baidumap://map/direction?origin=name:"+originName+"|latlng:"+origin.latitude+","+origin.longitude+"&destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
+	}
 	var bdappDown = "http://map.baidu.com/zt/qudao/newfengchao/1012337a/html/slide.html";
-	var amapuri = "iosamap://route/plan/?sourceApplication=hxbank&dlat="+latitude+"&dlon="+longitude+"&dname="+name+"&dev=1";
+	var amapMode = 0;
+	if(mode == "bus"){
+		amapMode = 1;
+	}else if(mode == "walk"){
+		amapMode = 2;
+	}else if(mode == "bike"){
+		amapMode = 3;
+	}
+	var amapuri = "iosamap://route/plan/?sourceApplication=uniapp&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+	if(origin){
+		amapuri = "iosamap://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.atitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+	}
 	var amapuriDown = "http://wap.amap.com/";
+	var qqmap = "qqmap://map/routeplan?type="+mode+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
+	if(origin){
+		qqmap = "qqmap://map/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
+	}
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	if(origin){
+		qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	}
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
 		{
@@ -110,29 +169,43 @@ function openMapByIos(latitude, longitude, name) {
 		function(res){
 			if(isBaidu && isGaode){
 				if(res.index == 1){
-					url = bdapp;
-					downloadUrl = bdappDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(bdapp);
 				}else if(res.index == 2){
-					url = amapuri
-					downloadUrl = amapuriDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(amapuri);
+				}else if(res.index == 3){
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
 				}
 			}else if(!isBaidu && isGaode){
 				if(res.index == 1){
-					url = amapuri
-					downloadUrl = amapuriDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(amapuri);
+				}else if(res.index == 2){
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
 				}
 			}else if(isBaidu && !isGaode){
 				if(res.index == 1){
-					url = bdapp;
-					downloadUrl = bdappDown
-					openURL(url,downloadUrl)
+					plus.runtime.openURL(bdapp);
+				}else if(res.index == 2){
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
 				}
 			}else{
 				if(res.index == 1){
-					openMapByDefault(latitude, longitude, name)
+					if(isQQ){
+						plus.runtime.openURL(qqmap);
+					}else{
+						plus.runtime.openURL(qqmapDefault);
+					}
 				}
 			}
 		}
@@ -143,16 +216,11 @@ function openMapByIos(latitude, longitude, name) {
 		itemList:itemList,
 		success: (res) => {
 			if(res.tapIndex == 0){
-				url = bdapp;
-				downloadUrl = bdappDown
-				openURL(url,downloadUrl)
+				openURL(bdapp,bdappDown)
 			}else if(res.tapIndex == 1){
-				url = amapuri
-				downloadUrl = amapuriDown
-				openURL(url,downloadUrl)
+				openURL(amapuri,amapuriDown)
 			}else{
-				url = "qqmap://map/routeplan?type=drive&to="+name+"&tocoord="+latitude+","+longitude+""
-				openURLTencent(url,latitude, longitude, name)
+				openURL(qqmap,qqmapDefault)
 			}
 		}
 	})
@@ -160,54 +228,24 @@ function openMapByIos(latitude, longitude, name) {
 	
 }
 function openURL(url,downLoadUrl) {
-	// #ifdef APP-PLUS
-	plus.runtime.openURL(url);
-	// #endif
-	// #ifndef APP-PLUS
-		window.location.href=url;
-		var startTime = Date.now();
-		var count = 0;
-		var endTime = 0;
-		var t = setInterval(function () {
-			count += 1;
-			endTime = Date.now() - startTime;
-			if (endTime > 800) {
-				clearInterval(t);
-			}
-			if (count < 40){
-				return false;
-			}
-			if(!(document.hidden || document.webkitHidden)) {
-				if(window.plus){
-					plus.runtime.openURL(downLoadUrl);
-				}else{
-					window.location.href = downLoadUrl;
-				}
-				
-			   
-			}
-		}, 20);
-	// #endif
-	
-}
-function openURLTencent(url,latitude, longitude, name) {
 	window.location.href=url;
 	var startTime = Date.now();
 	var count = 0;
 	var endTime = 0;
 	var t = setInterval(function () {
-	  count += 1;
-	  endTime = Date.now() - startTime;
-	  if (endTime > 800) {
-	    clearInterval(t);
-	  }
-	  if (count < 40){
-		  return false;
-	  } 
-	  if (!(document.hidden || document.webkitHidden)) {
-	   openMapByDefault(latitude, longitude, name)
-	  }
+		count += 1;
+		endTime = Date.now() - startTime;
+		if (endTime > 800) {
+			clearInterval(t);
+		}
+		if (count < 40){
+			return false;
+		}
+		if(!(document.hidden || document.webkitHidden)) {
+			window.location.href = downLoadUrl;
+		}
 	}, 20);
+	
 }
 let PI  = 3.14159265358979324;
 let x_pi = 3.14159265358979324 * 3000.0 / 180.0
@@ -261,38 +299,42 @@ function transformLon(x, y) {
 }
 export default {
 	/* 打开地图 */
-	openMap(latitude, longitude, name,type="gcj02") {
-		let _latitude = latitude,_longitude = longitude;
+	openMap(options,type="gcj02") {
+		let _origin = options.origin,_destination = options.destination,_mode = options.mode?options.mode:"drive";
+		
 		if(type.toLowerCase() == "wgs84"){
-			_latitude = gcj_encrypt(latitude, longitude).lat
-			_longitude = gcj_encrypt(latitude, longitude).lon
+			if(options.origin){
+				_origin.latitude = gcj_encrypt(options.origin.latitude, options.origin.longitude).lat
+				_origin.longitude = gcj_encrypt(options.origin.latitude,options.origin.longitude).lon
+			}
+			_destination.latitude = gcj_encrypt(options.destination.latitude, options.destination.longitude).lat
+			_destination.longitude = gcj_encrypt(options.destination.latitude,options.destination.longitude).lon
 		}else if(type.toLowerCase() == "bd09"){
-			_latitude = bd_decrypt(latitude, longitude).lat
-			_longitude = bd_decrypt(latitude, longitude).lon
+			if(options.origin){
+				_origin.latitude = bd_decrypt(options.origin.latitude, options.origin.longitude).lat
+				_origin.longitude = bd_decrypt(options.origin.latitude,options.origin.longitude).lon
+			}
+			_destination.latitude = bd_decrypt(options.destination.latitude, options.destination.longitude).lat
+			_destination.longitude = bd_decrypt(options.destination.latitude, options.destination.longitude).lon
 		}
 		// #ifdef MP-WEIXIN
 			wx.openLocation({
-				latitude: _latitude,
-				longitude: _longitude,
-				name: name,
-				address:"",
-				fail: (err) => {
-					console.log(err)
-				},
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				name: _destination.name
 			})
 		// #endif
 		// #ifndef MP
 			switch(uni.getSystemInfoSync().platform){
 				case 'android':
 					console.log('运行Android上')
-					openMapByAndroid(_latitude, _longitude, name)
+					openMapByAndroid(_origin, _destination,_mode)
 					break;
 				case 'ios':
 					console.log('运行iOS上')
-					openMapByIos(_latitude, _longitude, name,)
+					openMapByIos(_origin, _destination,_mode)
 					break;
 				default:
-					openMapByDefault(_latitude, _longitude, name)
 					console.log('运行在开发者工具上')	
 					break;
 			}
