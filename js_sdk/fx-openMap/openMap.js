@@ -38,9 +38,9 @@ function openMapByAndroid(origin, destination,mode) {
 	}else if(mode == "bike"){
 		amapMode = 3;
 	}
-	var amapuri = "amapuri://route/plan/?sourceApplication=uniapp&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+	var amapuri = "amapuri://route/plan/?sourceApplication=uniapp&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&t="+amapMode;
 	if(origin){
-		amapuri = "amapuri://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+		amapuri = "amapuri://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&t="+amapMode;
 	}
 	var amapuriDown = "http://wap.amap.com/";
 	var qqmap = "qqmap://map/routeplan?type="+mode+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
@@ -146,9 +146,9 @@ function openMapByIos(origin, destination,mode) {
 	}else if(mode == "bike"){
 		amapMode = 3;
 	}
-	var amapuri = "iosamap://route/plan/?sourceApplication=uniapp&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+	var amapuri = "iosamap://route/plan/?sourceApplication=uniapp&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&t="+amapMode;
 	if(origin){
-		amapuri = "iosamap://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+		amapuri = "iosamap://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&t="+amapMode;
 	}
 	var amapuriDown = "http://wap.amap.com/";
 	var qqmap = "qqmap://map/routeplan?type="+mode+"&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;

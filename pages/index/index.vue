@@ -17,16 +17,16 @@
 		methods: {
 			openMap(){
 				var options = {
-					origin:{  //导航起点坐标和名称,如果不传则起点为当前位置
+					/* origin:{  //导航起点坐标和名称,如果不传则起点为当前位置
 						latitude:39.92848272,
 						longitude:116.39560823,
-						name:"我的位置"
-					},
+						name:"起点"
+					}, */
 					destination:{  //导航终点点坐标和名称
-									        latitude: 28.196551,
-									        longitude: 112.963087,
-									        name:"橘子洲景区"
-									    },
+						latitude:39.98848272,
+						longitude:116.47560823,
+						name:"终点"
+					},
 					mode:"drive"  //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
 				}
 				Map.openMap(options,"gcj02")
