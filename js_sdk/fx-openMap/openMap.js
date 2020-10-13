@@ -61,42 +61,42 @@ function openMapByAndroid(origin, destination,mode) {
 		function(res){
 			if(isBaidu && isGaode){
 				if(res.index == 1){
-					plus.runtime.openURL(bdapp);
+					appOpenUrl(bdapp);
 				}else if(res.index ==2){
-					plus.runtime.openURL(amapuri);
+					appOpenUrl(amapuri);
 				}else if(res.index == 3){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 				}
 			}else if(!isBaidu && isGaode){
 				if(res.index == 1){
-					plus.runtime.openURL(amapuri);
+					appOpenUrl(amapuri);
 				}else if(res.index == 2){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 				}
 			}else if(isBaidu && !isGaode){
 				if(res.index == 1){
-					plus.runtime.openURL(bdapp);
+					appOpenUrl(bdapp);
 				}else if(res.index == 2){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 				}
 			}else{
 				if(res.index == 1){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 					
 				}
@@ -133,7 +133,7 @@ function openMapByIos(origin, destination,mode) {
 	}else if(mode == "bike"){
 		bdMode = "riding";
 	}
-	var bdapp = "baidumap://map/direction?destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
+	var bdapp = "baidumap://map/direction?origin=我的位置&destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
 	if(origin){
 		bdapp = "baidumap://map/direction?origin=name:"+originName+"|latlng:"+origin.latitude+","+origin.longitude+"&destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
 	}
@@ -148,14 +148,14 @@ function openMapByIos(origin, destination,mode) {
 	}
 	var amapuri = "iosamap://route/plan/?sourceApplication=uniapp&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
 	if(origin){
-		amapuri = "iosamap://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.atitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
+		amapuri = "iosamap://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&dev=1&t="+amapMode;
 	}
 	var amapuriDown = "http://wap.amap.com/";
-	var qqmap = "qqmap://map/routeplan?type="+mode+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
+	var qqmap = "qqmap://map/routeplan?type="+mode+"&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
 	if(origin){
 		qqmap = "qqmap://map/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
 	}
-	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
 	if(origin){
 		qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
 	}
@@ -169,42 +169,42 @@ function openMapByIos(origin, destination,mode) {
 		function(res){
 			if(isBaidu && isGaode){
 				if(res.index == 1){
-					plus.runtime.openURL(bdapp);
+					appOpenUrl(bdapp);
 				}else if(res.index == 2){
-					plus.runtime.openURL(amapuri);
+					appOpenUrl(amapuri);
 				}else if(res.index == 3){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 				}
 			}else if(!isBaidu && isGaode){
 				if(res.index == 1){
-					plus.runtime.openURL(amapuri);
+					appOpenUrl(amapuri);
 				}else if(res.index == 2){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 				}
 			}else if(isBaidu && !isGaode){
 				if(res.index == 1){
-					plus.runtime.openURL(bdapp);
+					appOpenUrl(bdapp);
 				}else if(res.index == 2){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 				}
 			}else{
 				if(res.index == 1){
 					if(isQQ){
-						plus.runtime.openURL(qqmap);
+						appOpenUrl(qqmap);
 					}else{
-						plus.runtime.openURL(qqmapDefault);
+						appOpenUrl(qqmapDefault);
 					}
 				}
 			}
@@ -227,8 +227,11 @@ function openMapByIos(origin, destination,mode) {
 	// #endif
 	
 }
+function appOpenUrl(_url){
+	plus.runtime.openURL(encodeURI(_url));
+}
 function openURL(url,downLoadUrl) {
-	window.location.href=url;
+	window.location.href= encodeURI(url);
 	var startTime = Date.now();
 	var count = 0;
 	var endTime = 0;
@@ -242,7 +245,7 @@ function openURL(url,downLoadUrl) {
 			return false;
 		}
 		if(!(document.hidden || document.webkitHidden)) {
-			window.location.href = downLoadUrl;
+			window.location.href = encodeURI(downLoadUrl);
 		}
 	}, 20);
 	
