@@ -1,52 +1,44 @@
-### 使用说明
-本插件适合用于H5，APP,小程序开发时唤起手机安装的地图APP进行导航(注：小程序目前只能实现原生的查看终点位置进行导航，不能实现自定义起点)；因为微信公众号有自己的SDK，可自行到微信公众平台查看
-(使用过程中遇到问题可以加交流群：865939377咨询)
+# fx-amountInput组件
 
 ### 使用方式
 
-```
-import Map from '@/js_sdk/fx-openMap/openMap.js'
-//既有起点也有终点
-var options = {
-	origin:{  //导航起点坐标和名称,如果不传则起点为当前位置
-		latitude:39.92848272,
-		longitude:116.39560823,
-		name:"起点名称"
-	},
-	destination:{  //导航终点点坐标和名称
-		latitude:39.98848272,
-		longitude:116.47560823,
-		name:"终点名称"
-	},
-	mode:"drive"  //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
-}
-//只有有终点(起点默认为当前位置)
-var options = {
-	destination:{  //导航终点点坐标和名称
-		latitude:39.98848272,
-		longitude:116.47560823,
-		name:"终点名称"
-	},
-	mode:"drive"  //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
-}
-Map.openMap(options,type)
+#### 在 scripts 中引用组件:
 
+```
+import fxAmountInput from '@/components/fx-amountInput/fx-amountInput.vue';
+export default {
+    components: {
+        fxAmountInput
+    }
+}
+</script>
+
+```
+
+#### 在 template  中引用组件:
+```
+<fx-amountInput></fx-amountInput>
+<fx-amountInput :currency="currency" :fontSize="fontSize" :confirmText="confirmText" :btnColor="btnColor" :placeholder="placeholder" :maxNumber="maxNumber" :isBold="isBold" :isFilter="isFilter" @change="change" @confirm="confirm"></fx-amountInput>
 ```
 
 ### 属性说明:
 
 
-| 参数				| 类型		| 说明															| 是否必选	|
-| ---------------	| ----		| ------------------------										| ----		|
-| options			| Object	|																| 是		|
-| ┣ origin			| Object	| 导航起点坐标和名称,如果不传则起点为当前位置						| 否		|
-| ┣ ┣ latitude		| Float		| 纬度（默认GCJ-02坐标系）										| 是		|
-| ┣ ┣ longitude		| Float		| 经度（默认GCJ-02坐标系）										| 是		|
-| ┣ ┣ name			| String	| 地图标注名称													| 否		|
-| ┣ destination		| Object	| 导航终点点坐标和名称											| 是		|
-| ┣ ┣ latitude		| Float		| 纬度（默认GCJ-02坐标系）										| 是		|
-| ┣ ┣ longitude		| Float		| 经度（默认GCJ-02坐标系）										| 是		|
-| ┣ ┣ name			| String	| 地图标注名称													| 否		|
-| ┣ mode			|  String	| 导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike		| 否		|
-| type				| String	| 地图坐标系类型【“gcj02(默认)”、“wgs84”、“bd09”】					| 否		|
+| 属性            | 类型                     | 默认值 | 描述                                       |
+| --------------- | ------------------------ | ---- | ------------------------------------------ |
+| currency        | String                   | ￥   | 金额类型（默认为人民币）                                   |
+| fontSize  | Number，String                   | 30   | 字体大小                                   |
+| confirmText      |  String                | 充值   | 按钮文字                                   |
+| btnColor          | String                 | #2B76EF   | 按钮背景色 |
+| placeholder        | String                   | 请输入充值金额   | 占位符                                   |
+| maxNumber  | Number                   | 100000000000  | 最大输入金额                                   |
+| isBold      |  Boolean                | true   | 输入框字体加粗                                   |
+| isFilter          | Boolean                 | true   | 金额格式化（格式化后：9,999,999.12） |
 
+### 事件说明
+
+
+| 事件名称           | 说明                     | 返回值 |
+| --------------- | ------------------------ | ---- |
+| change        | 输入框值改变时触发的事件，实时返回输入的金额                   | value  |
+| confirm        | 点击提交按钮时触发的提交事件                  | value  |
