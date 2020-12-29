@@ -122,6 +122,84 @@ function openMapByAndroid(origin, destination,mode) {
 	// #endif
 	
 }
+function navigationByAndroid(destination){
+	let destinationName = destination.name?destination.name:"终点";
+	var bdapp = "baidumap://map/navi?location="+destination.latitude+","+destination.longitude+"&query="+destinationName+"&coord_type=gcj02&src=uniapp";
+	var bdappDown = "http://map.baidu.com/zt/qudao/newfengchao/1012337a/html/slide.html"
+	var amapuri = "androidamap://navi?sourceApplication=uniapp&lat="+destination.latitude+"&lon="+destination.longitude+"&poiname="+destinationName+"&dev=1";
+	var amapuriDown = "http://wap.amap.com/";
+	var qqmap = "qqmap://map/routeplan?type=drive&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=drive&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	// #ifdef APP-PLUS
+	plus.nativeUI.actionSheet(
+		{
+			title:"选择导航",
+			cancel:"取消",
+			buttons:AppitemList
+		},
+		function(res){
+			if(isBaidu && isGaode){
+				if(res.index == 1){
+					appOpenUrl(bdapp);
+				}else if(res.index ==2){
+					appOpenUrl(amapuri);
+				}else if(res.index == 3){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+				}
+			}else if(!isBaidu && isGaode){
+				if(res.index == 1){
+					appOpenUrl(amapuri);
+				}else if(res.index == 2){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+				}
+			}else if(isBaidu && !isGaode){
+				if(res.index == 1){
+					appOpenUrl(bdapp);
+				}else if(res.index == 2){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+				}
+			}else{
+				if(res.index == 1){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+					
+				}
+				
+			}
+		}
+	);
+	// #endif
+	// #ifndef APP-PLUS
+	uni.showActionSheet({
+		itemList:itemList,
+		success: (res) => {
+			if(res.tapIndex == 0){
+				openURL(bdapp,bdappDown)
+			}else if(res.tapIndex == 1){
+				openURL(amapuri,amapuriDown)
+			}else{
+				openURL(qqmap,qqmapDefault)
+			}
+			
+		}
+	})
+	// #endif
+}
 function openMapByIos(origin, destination,mode) {
 	let originName = origin&&origin.name?origin.name:"起点";
 	let destinationName = destination.name?destination.name:"终点";
@@ -137,7 +215,7 @@ function openMapByIos(origin, destination,mode) {
 	if(origin){
 		bdapp = "baidumap://map/direction?origin=name:"+originName+"|latlng:"+origin.latitude+","+origin.longitude+"&destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
 	}
-	var bdappDown = "http://map.baidu.com/zt/qudao/newfengchao/1012337a/html/slide.html";
+	var bdappDown = "https://apps.apple.com/cn/app/id452186370";
 	var amapMode = 0;
 	if(mode == "bus"){
 		amapMode = 1;
@@ -150,7 +228,7 @@ function openMapByIos(origin, destination,mode) {
 	if(origin){
 		amapuri = "iosamap://route/plan/?sourceApplication=uniapp&slat="+origin.latitude+"&slon="+origin.longitude+"&sname="+originName+"&dlat="+destination.latitude+"&dlon="+destination.longitude+"&dname="+destinationName+"&t="+amapMode;
 	}
-	var amapuriDown = "http://wap.amap.com/";
+	var amapuriDown = "https://apps.apple.com/cn/app/id461703208";
 	var qqmap = "qqmap://map/routeplan?type="+mode+"&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
 	if(origin){
 		qqmap = "qqmap://map/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
@@ -227,6 +305,81 @@ function openMapByIos(origin, destination,mode) {
 	// #endif
 	
 }
+function navigationByIos(destination){
+	let destinationName = destination.name?destination.name:"终点";
+	var bdapp = "baidumap://map/navi?location="+destination.latitude+","+destination.longitude+"&coord_type=gcj02&query="+destinationName+"&src=uniapp";
+	var bdappDown = "https://apps.apple.com/cn/app/id452186370";
+	var amapuri = "iosamap://navi?sourceApplication=uniapp&lat="+destination.latitude+"&lon="+destination.longitude+"&poiname="+destinationName+"&dev=1";
+	var amapuriDown = "https://apps.apple.com/cn/app/id461703208";
+	var qqmap = "qqmap://map/routeplan?type=drive&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=drive&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	// #ifdef APP-PLUS
+	plus.nativeUI.actionSheet(
+		{
+			title:"选择导航",
+			cancel:"取消",
+			buttons:AppitemList
+		},
+		function(res){
+			if(isBaidu && isGaode){
+				if(res.index == 1){
+					appOpenUrl(bdapp);
+				}else if(res.index == 2){
+					appOpenUrl(amapuri);
+				}else if(res.index == 3){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+				}
+			}else if(!isBaidu && isGaode){
+				if(res.index == 1){
+					appOpenUrl(amapuri);
+				}else if(res.index == 2){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+				}
+			}else if(isBaidu && !isGaode){
+				if(res.index == 1){
+					appOpenUrl(bdapp);
+				}else if(res.index == 2){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+				}
+			}else{
+				if(res.index == 1){
+					if(isQQ){
+						appOpenUrl(qqmap);
+					}else{
+						appOpenUrl(qqmapDefault);
+					}
+				}
+			}
+		}
+	);
+	// #endif
+	// #ifndef APP-PLUS
+	uni.showActionSheet({
+		itemList:itemList,
+		success: (res) => {
+			if(res.tapIndex == 0){
+				openURL(bdapp,bdappDown)
+			}else if(res.tapIndex == 1){
+				openURL(amapuri,amapuriDown)
+			}else{
+				openURL(qqmap,qqmapDefault)
+			}
+		}
+	})
+	// #endif
+}
 function appOpenUrl(_url){
 	plus.runtime.openURL(encodeURI(_url));
 }
@@ -301,8 +454,8 @@ function transformLon(x, y) {
 	return ret;
 }
 export default {
-	/* 打开地图 */
-	openMap(options,type="gcj02") {
+	/* 路程规划 */
+	routePlan(options,type="gcj02") {
 		let _origin = options.origin,_destination = options.destination,_mode = options.mode?options.mode:"drive";
 		
 		if(type.toLowerCase() == "wgs84"){
@@ -367,6 +520,38 @@ export default {
 			}
 			
 		// #endif
+	},
+	navigation(options,type="gcj02"){
+		let _destination = options.destination;
 		
+		if(type.toLowerCase() == "wgs84"){
+			_destination.latitude = gcj_encrypt(options.destination.latitude, options.destination.longitude).lat
+			_destination.longitude = gcj_encrypt(options.destination.latitude,options.destination.longitude).lon
+		}else if(type.toLowerCase() == "bd09"){
+			_destination.latitude = bd_decrypt(options.destination.latitude, options.destination.longitude).lat
+			_destination.longitude = bd_decrypt(options.destination.latitude, options.destination.longitude).lon
+		}
+		// #ifdef MP
+			uni.showToast({
+			    title: '小程序不支持调起地图导航',
+			    duration: 2000
+			});
+		// #endif
+		// #ifndef MP
+			switch(uni.getSystemInfoSync().platform){
+				case 'android':
+					console.log('运行Android上')
+					navigationByAndroid(_destination)
+					break;
+				case 'ios':
+					console.log('运行iOS上')
+					navigationByIos( _destination)
+					break;
+				default:
+					console.log('运行在开发者工具上')	
+					break;
+			}
+			
+		// #endif
 	}
 }
