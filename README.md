@@ -24,7 +24,7 @@ var options = {
 		name:"终点名称"
 	},
 	mode:"drive", //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
-	mapId:"map" //map 组件的 id (微信小程序端需传入)
+	mapId:"map" //map 组件的 id (微信小程序端必传)
 }
 //只有有终点(起点默认为当前位置) 微信小程序使用方式
 var options = {
@@ -34,7 +34,7 @@ var options = {
 		name:"终点名称"
 	},
 	mode:"drive", //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike
-	mapId:"map" //map 组件的 id (微信小程序端需传入)
+	mapId:"map" //map 组件的 id (微信小程序端必传)
 }
 Map.routePlan(options,type)
 
@@ -55,7 +55,7 @@ Map.routePlan(options,type)
 | ┣ ┣ longitude		| Float		| 经度（默认GCJ-02坐标系）										| 是		|
 | ┣ ┣ name			| String	| 地图标注名称													| 否		|
 | ┣ mode			|  String	| 导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike		| 否		|
-| ┣ mapId			|  String	| map 组件的 id (微信小程序端需传入)								| 否		|
+| ┣ mapId			|  String	| map 组件的 id (微信小程序端必传)								| 否		|
 | type				| String	| 地图坐标系类型【“gcj02(默认)”、“wgs84”、“bd09”】					| 否		|
 
 #### 驾车导航（直接调起地图APP导航；注：腾讯地图和微信小程序只能实现路径规划不能实现直接导航）
@@ -69,7 +69,7 @@ var options = {
 		longitude:116.47560823,
 		name:"终点名称"
 	},
-	mapId:"map" //map 组件的 id (微信小程序端需传入)
+	mapId:"map" //map 组件的 id (微信小程序端必传)
 }
 Map.navigation(options,type)
 
@@ -85,6 +85,6 @@ Map.navigation(options,type)
 | ┣ ┣ latitude		| Float		| 纬度（默认GCJ-02坐标系）										| 是		|
 | ┣ ┣ longitude		| Float		| 经度（默认GCJ-02坐标系）										| 是		|
 | ┣ ┣ name			| String	| 地图标注名称													| 否		|
-| ┣ mapId			|  String	| map 组件的 id (微信小程序端需传入)									| 否		|
+| ┣ mapId			|  String	| map 组件的 id (微信小程序端必传)									| 否		|
 | type				| String	| 地图坐标系类型【“gcj02(默认)”、“wgs84”、“bd09”】					| 否		|
 
