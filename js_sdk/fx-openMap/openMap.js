@@ -475,11 +475,15 @@ export default {
 		}
 		// #ifdef MP
 			// #ifdef MP-WEIXIN
-			wx.openLocation({
+			const mapCtx = wx.createMapContext(options.mapId, this);
+			mapCtx.openMapApp({
 				latitude: _destination.latitude,
 				longitude: _destination.longitude,
-				name: _destination.name
-			})
+				destination: _destination.name,
+				complete: res => {
+					console.log(res);
+				}
+			});
 			// #endif
 			// #ifdef MP-QQ
 			qq.openLocation({
@@ -532,10 +536,38 @@ export default {
 			_destination.longitude = bd_decrypt(options.destination.latitude, options.destination.longitude).lon
 		}
 		// #ifdef MP
-			uni.showToast({
-			    title: '小程序不支持调起地图导航',
-			    duration: 2000
+			// #ifdef MP-WEIXIN
+			const mapCtx = wx.createMapContext(options.mapId, this);
+			mapCtx.openMapApp({
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				destination: _destination.name,
+				complete: res => {
+					console.log(res);
+				}
 			});
+			// #endif
+			// #ifdef MP-QQ
+			qq.openLocation({
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				name: _destination.name
+			})
+			// #endif
+			// #ifdef MP-ALIPAY
+			my.openLocation({
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				name: _destination.name
+			})
+			// #endif
+			// #ifdef MP-360 || MP-BAIDU || MP-TOUTIAO
+			uni.openLocation({
+				latitude: _destination.latitude,
+				longitude: _destination.longitude,
+				name: _destination.name
+			})
+			// #endif
 		// #endif
 		// #ifndef MP
 			switch(uni.getSystemInfoSync().platform){
