@@ -386,21 +386,15 @@ function appOpenUrl(_url){
 function openURL(url,downLoadUrl) {
 	window.location.href= encodeURI(url);
 	var startTime = Date.now();
-	var count = 0;
 	var endTime = 0;
-	var t = setInterval(function () {
-		count += 1;
-		endTime = Date.now() - startTime;
-		if (endTime > 800) {
-			clearInterval(t);
-		}
-		if (count < 40){
-			return false;
-		}
-		if(!(document.hidden || document.webkitHidden)) {
-			window.location.href = encodeURI(downLoadUrl);
-		}
-	}, 20);
+	var t= setTimeout(()=>{
+		 endTime = Date.now() - startTime;
+		 if(endTime>=2000&&!(document.hidden || document.webkitHidden)){
+			  window.location.href = encodeURI(downLoadUrl);
+		 }else{
+			 clearTimeout(t)
+		 }
+	},2000)
 	
 }
 let PI  = 3.14159265358979324;

@@ -85,6 +85,6 @@ Map.navigation(options,type)
 | ┣ ┣ latitude		| Float		| 纬度（默认GCJ-02坐标系）										| 是		|
 | ┣ ┣ longitude		| Float		| 经度（默认GCJ-02坐标系）										| 是		|
 | ┣ ┣ name			| String	| 地图标注名称													| 否		|
-| ┣ mapId			|  String	| map 组件的 id (微信小程序端必传)									| 否		|
+| ┣ mapId			|  String	| map 组件的 id (微信小程序端必传)								| 否		|
 | type				| String	| 地图坐标系类型【“gcj02(默认)”、“wgs84”、“bd09”】					| 否		|
 
