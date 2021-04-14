@@ -8,7 +8,7 @@
 ### 使用方式
 #### 路线规划
 ```
-<map id="map"></map> //微信小程序页面添加
+<map id="map" hidden="true"></map> //微信小程序页面添加
 
 import Map from '@/js_sdk/fx-openMap/openMap.js'
 //既有起点也有终点
@@ -60,7 +60,7 @@ Map.routePlan(options,type)
 
 #### 驾车导航（直接调起地图APP导航；注：腾讯地图和微信小程序只能实现路径规划不能实现直接导航）
 ```
-<map id="map"></map> //小程序页面添加
+<map id="map" hidden="true"></map> //小程序页面添加
 
 import Map from '@/js_sdk/fx-openMap/openMap.js'
 var options = {
