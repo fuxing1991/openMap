@@ -395,6 +395,11 @@ function openURL(url,downLoadUrl) {
 			 clearTimeout(t)
 		 }
 	},2000)
+	document.addEventListener("visibilitychange",(res)=>{
+		if(document.hidden || document.webkitHidden){
+			clearTimeout(t)
+		}
+	})
 	
 }
 let PI  = 3.14159265358979324;
