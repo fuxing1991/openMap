@@ -204,13 +204,6 @@ function openMapByIos(origin, destination,mode) {
 	let originName = origin&&origin.name?origin.name:"起点";
 	let destinationName = destination.name?destination.name:"终点";
 	var bdMode = "driving";
-	if(mode == "bus"){
-		bdMode = "transit";
-	}else if(mode == "walk"){
-		bdMode = "walking";
-	}else if(mode == "bike"){
-		bdMode = "riding";
-	}
 	var bdapp = "baidumap://map/direction?origin=我的位置&destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
 	if(origin){
 		bdapp = "baidumap://map/direction?origin=name:"+originName+"|latlng:"+origin.latitude+","+origin.longitude+"&destination=name:"+destinationName+"|latlng:"+destination.latitude+","+destination.longitude+"&coord_type=gcj02&mode="+bdMode+"&src=uniapp";
@@ -237,12 +230,27 @@ function openMapByIos(origin, destination,mode) {
 	if(origin){
 		qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type="+mode+"&from="+originName+"&fromcoord="+origin.latitude+","+origin.longitude+"&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
 	}
+	var iosMode = 'd';
+	if(mode == "bus"){
+		bdMode = "transit";
+		iosMode = 'r';
+	}else if(mode == "walk"){
+		bdMode = "walking";
+		iosMode = 'w';
+	}else if(mode == "bike"){
+		bdMode = "riding";
+		iosMode = 'w';
+	}
+	var iosmap = "http://maps.apple.com/?daddr="+destination.latitude+","+destination.longitude+","+destinationName+"&dirflg="+iosMode
+	if(origin){
+		iosmap = "http://maps.apple.com/?saddr="+origin.latitude+","+origin.longitude+"&daddr="+destination.latitude+","+destination.longitude+"&dirflg="+iosMode
+	}
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
 		{
 			title:"选择导航",
 			cancel:"取消",
-			buttons:AppitemList
+			buttons:AppitemList.indexOf("Apple地图")<0 ? AppitemList.concat({title:"Apple地图"}):AppitemList
 		},
 		function(res){
 			if(isBaidu && isGaode){
@@ -256,6 +264,8 @@ function openMapByIos(origin, destination,mode) {
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 4){
+					appOpenUrl(iosmap);
 				}
 			}else if(!isBaidu && isGaode){
 				if(res.index == 1){
@@ -266,6 +276,8 @@ function openMapByIos(origin, destination,mode) {
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 3){
+					appOpenUrl(iosmap);
 				}
 			}else if(isBaidu && !isGaode){
 				if(res.index == 1){
@@ -276,6 +288,8 @@ function openMapByIos(origin, destination,mode) {
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 3){
+					appOpenUrl(iosmap);
 				}
 			}else{
 				if(res.index == 1){
@@ -284,6 +298,8 @@ function openMapByIos(origin, destination,mode) {
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 2){
+					appOpenUrl(iosmap);
 				}
 			}
 		}
@@ -291,14 +307,16 @@ function openMapByIos(origin, destination,mode) {
 	// #endif
 	// #ifndef APP-PLUS
 	uni.showActionSheet({
-		itemList:itemList,
+		itemList:itemList.indexOf("Apple地图")<0 ? itemList.concat("Apple地图"):itemList,
 		success: (res) => {
 			if(res.tapIndex == 0){
 				openURL(bdapp,bdappDown)
 			}else if(res.tapIndex == 1){
 				openURL(amapuri,amapuriDown)
-			}else{
+			}else if(res.tapIndex == 2){
 				openURL(qqmap,qqmapDefault)
+			}else if(res.tapIndex == 3){
+				openURL(iosmap);
 			}
 		}
 	})
@@ -313,12 +331,13 @@ function navigationByIos(destination){
 	var amapuriDown = "https://apps.apple.com/cn/app/id461703208";
 	var qqmap = "qqmap://map/routeplan?type=drive&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
 	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=drive&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
+	var iosmap = "http://maps.apple.com/?daddr="+destination.latitude+","+destination.longitude+","+destinationName+"&dirflg=d"
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
 		{
 			title:"选择导航",
 			cancel:"取消",
-			buttons:AppitemList
+			buttons:AppitemList.indexOf("Apple地图")<0 ? AppitemList.concat({title:"Apple地图"}):AppitemList
 		},
 		function(res){
 			if(isBaidu && isGaode){
@@ -332,6 +351,8 @@ function navigationByIos(destination){
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 4){
+					appOpenUrl(iosmap);
 				}
 			}else if(!isBaidu && isGaode){
 				if(res.index == 1){
@@ -342,6 +363,8 @@ function navigationByIos(destination){
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 3){
+					appOpenUrl(iosmap);
 				}
 			}else if(isBaidu && !isGaode){
 				if(res.index == 1){
@@ -352,6 +375,8 @@ function navigationByIos(destination){
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 3){
+					appOpenUrl(iosmap);
 				}
 			}else{
 				if(res.index == 1){
@@ -360,6 +385,8 @@ function navigationByIos(destination){
 					}else{
 						appOpenUrl(qqmapDefault);
 					}
+				}else if(res.index == 2){
+					appOpenUrl(iosmap);
 				}
 			}
 		}
@@ -367,14 +394,16 @@ function navigationByIos(destination){
 	// #endif
 	// #ifndef APP-PLUS
 	uni.showActionSheet({
-		itemList:itemList,
+		itemList:itemList.indexOf("Apple地图")<0 ? itemList.concat("Apple地图"):itemList,
 		success: (res) => {
 			if(res.tapIndex == 0){
 				openURL(bdapp,bdappDown)
 			}else if(res.tapIndex == 1){
 				openURL(amapuri,amapuriDown)
-			}else{
+			}else if(res.tapIndex == 2){
 				openURL(qqmap,qqmapDefault)
+			}else if(res.tapIndex == 3){
+				openURL(iosmap);
 			}
 		}
 	})
@@ -383,7 +412,7 @@ function navigationByIos(destination){
 function appOpenUrl(_url){
 	plus.runtime.openURL(encodeURI(_url));
 }
-function openURL(url,downLoadUrl) {
+function openURL(url,downLoadUrl="") {
 	window.location.href= encodeURI(url);
 	var startTime = Date.now();
 	var endTime = 0;

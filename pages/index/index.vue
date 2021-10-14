@@ -23,7 +23,7 @@
 					origin:{  //导航起点坐标和名称,如果不传则起点为当前位置
 						latitude:39.92848272,
 						longitude:116.39560823,
-						name:"起点"
+						name:"广州塔"
 					},
 					destination:{  //导航终点点坐标和名称
 						latitude:39.98848272,
@@ -38,7 +38,7 @@
 				//路线规划
 				Map.routePlan(options,"gcj02")
 				//驾车导航，打开地图直接开启导航，只需要传入options.destination终点信息
-				Map.navigation(options,"gcj02")
+				//Map.navigation(options,"gcj02")
 			}
 		}
 	}
