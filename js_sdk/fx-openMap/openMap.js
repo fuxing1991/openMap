@@ -241,7 +241,7 @@ function openMapByIos(origin, destination,mode) {
 		bdMode = "riding";
 		iosMode = 'w';
 	}
-	var iosmap = "http://maps.apple.com/?daddr="+destination.latitude+","+destination.longitude+","+destinationName+"&dirflg="+iosMode
+	var iosmap = "http://maps.apple.com/?daddr="+destination.latitude+","+destination.longitude+"&dirflg="+iosMode
 	if(origin){
 		iosmap = "http://maps.apple.com/?saddr="+origin.latitude+","+origin.longitude+"&daddr="+destination.latitude+","+destination.longitude+"&dirflg="+iosMode
 	}
@@ -331,7 +331,7 @@ function navigationByIos(destination){
 	var amapuriDown = "https://apps.apple.com/cn/app/id461703208";
 	var qqmap = "qqmap://map/routeplan?type=drive&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude;
 	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=drive&from=我的位置&to="+destinationName+"&tocoord="+destination.latitude+","+destination.longitude+"&policy=1";
-	var iosmap = "http://maps.apple.com/?daddr="+destination.latitude+","+destination.longitude+","+destinationName+"&dirflg=d"
+	var iosmap = "http://maps.apple.com/?daddr="+destination.latitude+","+destination.longitude+"&dirflg=d";
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
 		{
@@ -410,10 +410,12 @@ function navigationByIos(destination){
 	// #endif
 }
 function appOpenUrl(_url){
-	plus.runtime.openURL(encodeURI(_url));
+	var _time = new Date().getTime()
+	plus.runtime.openURL(encodeURI(_url+'&time=' + _time));
 }
 function openURL(url,downLoadUrl="") {
-	window.location.href= encodeURI(url);
+	var _time = new Date().getTime()
+	window.location.href= encodeURI(url+'&time=' + _time);
 	var startTime = Date.now();
 	var endTime = 0;
 	var t= setTimeout(()=>{

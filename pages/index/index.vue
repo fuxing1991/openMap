@@ -36,9 +36,9 @@
 					mode:"drive"  //导航方式 公交：bus驾车：drive（默认）,步行：walk,骑行：bike;
 				}
 				//路线规划
-				Map.routePlan(options,"gcj02")
-				//驾车导航，打开地图直接开启导航，只需要传入options.destination终点信息
-				//Map.navigation(options,"gcj02")
+				//Map.routePlan(options,"gcj02")
+				//驾车导航，打开地图直接开启导航，只需要传入options.destination终点信息;
+				Map.navigation(options,"gcj02")
 			}
 		}
 	}
